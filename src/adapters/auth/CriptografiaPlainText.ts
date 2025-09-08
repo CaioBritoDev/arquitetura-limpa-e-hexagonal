@@ -1,4 +1,4 @@
-import type Criptografia from "../core/ports/Criptografia.js";
+import type Criptografia from "../../core/ports/Criptografia.js";
 
 export default class CriptografiaPlainText implements Criptografia {
   async criptografar(valor: string): Promise<string> {

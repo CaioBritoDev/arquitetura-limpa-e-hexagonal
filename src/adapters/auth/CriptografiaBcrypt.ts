@@ -1,4 +1,4 @@
-import type Criptografia from "../core/ports/Criptografia.js";
+import type Criptografia from "../../core/ports/Criptografia.js";
 import bcrypt from "bcrypt";
 
 export default class CriptografiaBcrypt implements Criptografia {

@@ -1,4 +1,4 @@
-import type Banco from "../core/ports/Banco.js";
+import type Banco from "../../core/ports/Banco.js";
 
 export default class BancoEmMemoria implements Banco {
   dados: any[] = [];

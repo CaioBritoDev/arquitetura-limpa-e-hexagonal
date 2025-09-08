@@ -1,10 +1,10 @@
 import { test, expect, describe } from "vitest";
 
-import BancoEmMemoria from "../src/adapters/BancoEmMemoria.js";
-import CriptografiaBcrypt from "../src/adapters/CriptografiaBcrypt.js";
-import CriptografiaPlainText from "../src/adapters/CriptografiaPlainText.js";
+import BancoEmMemoria from "../src/adapters/db/BancoEmMemoria.js";
+import CriptografiaBcrypt from "../src/adapters/auth/CriptografiaBcrypt.js";
+import CriptografiaPlainText from "../src/adapters/auth/CriptografiaPlainText.js";
 
-import RegistrarUsuario from "../src/core/use-cases/RegistrarUsuario.js";
+import RegistrarUsuario from "../src/core/usuario/RegistrarUsuario.js";
 
 describe("RegistrarUsuario (banco em memória)", () => {
   test("Deve registar um usuário usando criptografia bcrypt", async () => {
