@@ -1,0 +1,28 @@
+{
+  "name": "arquitetura-limpa-e-hexagonal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaioBritoDev/arquitetura-limpa-e-hexagonal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CaioBritoDev/arquitetura-limpa-e-hexagonal/issues"
+  },
+  "homepage": "https://github.com/CaioBritoDev/arquitetura-limpa-e-hexagonal#readme",
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
