@@ -8,7 +8,7 @@ import RegistrarUsuario from "../../src/core/usuario/RegistrarUsuario.js";
 import type Usuario from "../../src/core/usuario/Usuario.js";
 
 describe("RegistrarUsuario (banco em memória)", () => {
-  const criarUsuario = () =>
+  const criarUsuarioDto = () =>
     ({
       nome: "Caio",
       senha: "123456",
@@ -19,8 +19,8 @@ describe("RegistrarUsuario (banco em memória)", () => {
     const bancoEmMemoria = new UsuarioEmMemoria();
     const criptografiaBcrypt = new CriptografiaBcrypt();
     const casoDeUso = new RegistrarUsuario(bancoEmMemoria, criptografiaBcrypt);
-    const usuario = criarUsuario();
-    await casoDeUso.executar(usuario.nome, usuario.email, usuario.senha);
+    const usuarioDto = criarUsuarioDto();
+    await casoDeUso.executar(usuarioDto);
     expect(bancoEmMemoria.dados).toHaveLength(1);
     expect(bancoEmMemoria.dados[0]).toBeDefined();
   });
@@ -32,8 +32,8 @@ describe("RegistrarUsuario (banco em memória)", () => {
       bancoEmMemoria,
       criptografiaPlainText
     );
-    const usuario = criarUsuario();
-    await casoDeUso.executar(usuario.nome, usuario.email, usuario.senha);
+    const usuarioDto = criarUsuarioDto();
+    await casoDeUso.executar(usuarioDto);
     expect(bancoEmMemoria.dados).toHaveLength(1);
     expect(bancoEmMemoria.dados[0].senha).toBe("hash-123456");
   });
@@ -42,11 +42,11 @@ describe("RegistrarUsuario (banco em memória)", () => {
     const bancoEmMemoria = new UsuarioEmMemoria();
     const criptografiaBcrypt = new CriptografiaBcrypt();
     const casoDeUso = new RegistrarUsuario(bancoEmMemoria, criptografiaBcrypt);
-    const usuario = criarUsuario();
-    usuario.senha = "";
-    await expect(
-      casoDeUso.executar(usuario.nome, usuario.email, usuario.senha)
-    ).rejects.toThrow("Senha obrigatória");
+    const usuarioDto = criarUsuarioDto();
+    usuarioDto.senha = "";
+    await expect(casoDeUso.executar(usuarioDto)).rejects.toThrow(
+      "Senha obrigatória"
+    );
     expect(bancoEmMemoria.dados).toHaveLength(0);
   });
 
@@ -54,11 +54,11 @@ describe("RegistrarUsuario (banco em memória)", () => {
     const bancoEmMemoria = new UsuarioEmMemoria();
     const criptografiaBcrypt = new CriptografiaBcrypt();
     const casoDeUso = new RegistrarUsuario(bancoEmMemoria, criptografiaBcrypt);
-    const usuario = criarUsuario();
-    await casoDeUso.executar(usuario.nome, usuario.email, usuario.senha);
-    await expect(
-      casoDeUso.executar(usuario.nome, usuario.email, usuario.senha)
-    ).rejects.toThrow("Usuário com esse e-mail já cadastrado");
+    const usuarioDto = criarUsuarioDto();
+    await casoDeUso.executar(usuarioDto);
+    await expect(casoDeUso.executar(usuarioDto)).rejects.toThrow(
+      "Usuário com esse e-mail já cadastrado"
+    );
     expect(bancoEmMemoria.dados).toHaveLength(1);
   });
 });
