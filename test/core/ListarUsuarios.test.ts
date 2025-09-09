@@ -1,7 +1,7 @@
-import { test, expect, describe, beforeAll, vi } from "vitest";
+import { test, expect, describe, beforeAll } from "vitest";
 
-import UsuarioEmMemoria from "../src/adapters/db/UsuarioEmMemoria.js";
-import ListarUsuarios from "../src/core/usuario/ListarUsuarios.js";
+import UsuarioEmMemoria from "../../src/adapters/db/UsuarioEmMemoria.js";
+import ListarUsuarios from "../../src/core/usuario/ListarUsuarios.js";
 
 describe("ListarUsuario (banco em memória)", () => {
   let bancoEmMemoria: UsuarioEmMemoria;
