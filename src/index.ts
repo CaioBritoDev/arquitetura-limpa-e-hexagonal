@@ -1,10 +1,12 @@
-import type { Express } from "express";
 import express from "express";
+
+import CriptografiaBcrypt from "./adapters/auth/CriptografiaBcrypt.js";
+import UsuarioEmMemoria from "./adapters/db/UsuarioEmMemoria.js";
 
 import RegistrarUsuarioController from "./controllers/RegistrarUsuarioController.js";
 import RegistrarUsuario from "./core/usuario/RegistrarUsuario.js";
-import UsuarioEmMemoria from "./adapters/db/UsuarioEmMemoria.js";
-import CriptografiaBcrypt from "./adapters/auth/CriptografiaBcrypt.js";
+import ListarUsuariosController from "./controllers/ListarUsuariosController.js";
+import ListarUsuarios from "./core/usuario/ListarUsuarios.js";
 
 const app = express();
 
@@ -28,3 +30,5 @@ const registrarUsuario = new RegistrarUsuario(
   provedorCriptografia
 );
 new RegistrarUsuarioController(registrarUsuario, app);
+const listarUsuarios = new ListarUsuarios(provedorBancoDeDados);
+new ListarUsuariosController(listarUsuarios, app);
