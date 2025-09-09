@@ -19,7 +19,8 @@ describe("RegistrarUsuario (banco em memória)", () => {
     const bancoEmMemoria = new UsuarioEmMemoria();
     const criptografiaBcrypt = new CriptografiaBcrypt();
     const casoDeUso = new RegistrarUsuario(bancoEmMemoria, criptografiaBcrypt);
-    await casoDeUso.executar(criarUsuario());
+    const usuario = criarUsuario();
+    await casoDeUso.executar(usuario.nome, usuario.email, usuario.senha);
     expect(bancoEmMemoria.dados).toHaveLength(1);
     expect(bancoEmMemoria.dados[0]).toBeDefined();
   });
@@ -32,12 +33,9 @@ describe("RegistrarUsuario (banco em memória)", () => {
       criptografiaPlainText
     );
     const usuario = criarUsuario();
-    await casoDeUso.executar(usuario);
+    await casoDeUso.executar(usuario.nome, usuario.email, usuario.senha);
     expect(bancoEmMemoria.dados).toHaveLength(1);
-    expect(bancoEmMemoria.dados[0]).toEqual({
-      ...usuario,
-      senha: "hash-123456",
-    });
+    expect(bancoEmMemoria.dados[0].senha).toBe("hash-123456");
   });
 
   test("Não deve registrar um usuário sem senha", async () => {
@@ -46,9 +44,9 @@ describe("RegistrarUsuario (banco em memória)", () => {
     const casoDeUso = new RegistrarUsuario(bancoEmMemoria, criptografiaBcrypt);
     const usuario = criarUsuario();
     usuario.senha = "";
-    await expect(casoDeUso.executar(usuario)).rejects.toThrow(
-      "Senha obrigatória"
-    );
+    await expect(
+      casoDeUso.executar(usuario.nome, usuario.email, usuario.senha)
+    ).rejects.toThrow("Senha obrigatória");
     expect(bancoEmMemoria.dados).toHaveLength(0);
   });
 
@@ -57,10 +55,10 @@ describe("RegistrarUsuario (banco em memória)", () => {
     const criptografiaBcrypt = new CriptografiaBcrypt();
     const casoDeUso = new RegistrarUsuario(bancoEmMemoria, criptografiaBcrypt);
     const usuario = criarUsuario();
-    await casoDeUso.executar(usuario);
-    await expect(casoDeUso.executar(usuario)).rejects.toThrow(
-      "Usuário com esse e-mail já cadastrado"
-    );
+    await casoDeUso.executar(usuario.nome, usuario.email, usuario.senha);
+    await expect(
+      casoDeUso.executar(usuario.nome, usuario.email, usuario.senha)
+    ).rejects.toThrow("Usuário com esse e-mail já cadastrado");
     expect(bancoEmMemoria.dados).toHaveLength(1);
   });
 });
