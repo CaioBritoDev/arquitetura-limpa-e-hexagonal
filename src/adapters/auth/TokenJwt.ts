@@ -2,29 +2,38 @@ import jwt from "jsonwebtoken";
 import type Token from "../../core/usuario/Token.js";
 
 export default class TokenJwt implements Token {
-  private segredo: string;
+  private segredoAccess: string;
+  private segredoRefresh: string;
 
-  constructor(segredo: string) {
-    this.segredo = segredo;
+  constructor(segredoAccess: string, segredoRefresh: string) {
+    this.segredoAccess = segredoAccess;
+    this.segredoRefresh = segredoRefresh;
   }
 
-  async gerar(usuario: {
-    id: string;
-    nome: string;
-    email: string;
-  }): Promise<string> {
+  async gerar(
+    usuario: {
+      id: string;
+      nome: string;
+      email: string;
+    },
+    tempoExpiracao: number,
+    tipo: "access" | "refresh"
+  ): Promise<string> {
     return jwt.sign(
       { id: usuario.id, nome: usuario.nome, email: usuario.email },
-      this.segredo,
+      tipo === "access" ? this.segredoAccess : this.segredoRefresh,
       {
-        expiresIn: "1h",
+        expiresIn: tempoExpiracao,
       }
     );
   }
 
-  async verificar(token: string): Promise<boolean> {
+  async verificar(token: string, tipo: "access" | "refresh"): Promise<boolean> {
     try {
-      jwt.verify(token, this.segredo);
+      jwt.verify(
+        token,
+        tipo === "access" ? this.segredoAccess : this.segredoRefresh
+      );
       return true;
     } catch (e) {
       return false;

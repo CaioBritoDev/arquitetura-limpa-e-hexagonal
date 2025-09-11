@@ -46,7 +46,10 @@ const listarUsuarios = new ListarUsuarios(provedorBancoDeDados);
 new ListarUsuariosController(listarUsuarios, app);
 
 // Autenticação de usuário
-const provedorToken = new TokenJwt(process.env.JWT_SECRET_KEY!);
+const provedorToken = new TokenJwt(
+  process.env.ACCESS_TOKEN_SECRET!,
+  process.env.REFRESH_TOKEN_SECRET!
+);
 const provedorAutenticacao = new AutenticacaoInterna(
   provedorToken,
   provedorBancoDeDados,

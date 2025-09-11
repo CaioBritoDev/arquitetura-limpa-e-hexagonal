@@ -1,11 +1,15 @@
 import type CasoDeUso from "../shared/CasoDeUso.js";
 import type ProvedorAutenticacao from "./ProvedorAutenticacao.js";
+import type {
+  PropsAutenticacao,
+  TokensAutenticacao,
+} from "./dtos/Autenticacao.dto.js";
 
 export default class AutenticarUsuario
-  implements CasoDeUso<{ email: string; senha: string }, string>
+  implements CasoDeUso<PropsAutenticacao, TokensAutenticacao>
 {
   constructor(private readonly autenticacao: ProvedorAutenticacao) {}
-  async executar(dto: { email: string; senha: string }): Promise<string> {
-    return await this.autenticacao.autenticar(dto.email, dto.senha);
+  async executar(props: PropsAutenticacao): Promise<TokensAutenticacao> {
+    return await this.autenticacao.autenticar(props.email, props.senha);
   }
 }

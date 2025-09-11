@@ -20,7 +20,10 @@ describe("Autentica usuário com autenticação interna", () => {
 
   const usuarioEmMemoria = new UsuarioEmMemoria();
   const criptografiaBcrypt = new CriptografiaBcrypt();
-  const jwtToken = new TokenJwt(process.env.JWT_SECRET_KEY!);
+  const jwtToken = new TokenJwt(
+    process.env.ACCESS_TOKEN_SECRET!,
+    process.env.REFRESH_TOKEN_SECRET!
+  );
 
   beforeAll(async () => {
     const registrarUsuario = new RegistrarUsuario(
@@ -37,9 +40,12 @@ describe("Autentica usuário com autenticação interna", () => {
       criptografiaBcrypt
     );
     const casoDeUso = new AutenticarUsuario(autenticacaoInterna);
-    expect(
-      await casoDeUso.executar({ email: usuario.email, senha: usuario.senha })
-    ).toBeTypeOf("string");
+    const execucao = await casoDeUso.executar({
+      email: usuario.email,
+      senha: usuario.senha,
+    });
+    expect(execucao).toHaveProperty("accessToken");
+    expect(execucao).toHaveProperty("refreshToken");
   });
 
   test("Não deve autenticar o usuário com senha incorreta", async () => {

@@ -9,9 +9,7 @@ export default class AutenticarUsuarioController {
           email: req.body.email,
           senha: req.body.senha,
         });
-        res.json({
-          accessToken: casoDeUso,
-        });
+        res.json(casoDeUso);
       } catch (error) {
         res.status(500).json({ error: (error as Error).message });
       }
