@@ -10,6 +10,6 @@ export default class AutenticarUsuario
 {
   constructor(private readonly autenticacao: ProvedorAutenticacao) {}
   async executar(props: PropsAutenticacao): Promise<TokensAutenticacao> {
-    return await this.autenticacao.autenticar(props.email, props.senha);
+    return await this.autenticacao.autenticar(props);
   }
 }

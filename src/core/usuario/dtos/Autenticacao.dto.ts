@@ -4,6 +4,9 @@ export type TokensAutenticacao = {
 };
 
 export type PropsAutenticacao = {
+  nome: string;
   email: string;
-  senha: string;
+  senha?: string;
+  provedor: "interno" | "google";
+  provedorId?: string;
 };

@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, validate } from "uuid";
 
 // É direto um adapter, pois não teremos outro provedor de ID, e isso não trará grandes prejuízos
 // para a arquitetura do sistema.
@@ -16,6 +16,11 @@ import { v4 as uuidv4 } from "uuid";
 // Se fosse um gerador de ID que dependesse de estado (ex: auto-incremento em banco de dados),
 // aí sim seria interessante criar uma instância da classe e manter o estado.
 export default class Id {
+  private id: string;
+  constructor(id?: string) {
+    if (id && validate(id)) this.id = id;
+    else this.id = Id.gerar();
+  }
   static gerar(): string {
     return uuidv4();
   }
